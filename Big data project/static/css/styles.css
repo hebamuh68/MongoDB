@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;500;600;800&family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap');
+
+
+/* ====================================================================== BODY */
+body {
+    font-family: 'Poppins';
+    background-color: black;
+    color: white;
+}
+
+.btn:hover{
+    color:#CC0080 !important;
+    background-color: white;
+}
+
+/* ====================================================================== sidebar */
+.fs-5{
+    color: #CC0080;
+}
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 100;
+}
+
+.sidebar .nav-link.active {
+    background-color: #CC0080;
+}
+
+.bg-secondary{
+ opacity: 0.5;
+}
+
+.bg-secondary:hover{
+ opacity: 1;
+}
+
+/* ====================================================================== IMG */
+.pp {
+  margin-left: 200px; /* Adjust this value based on the sidebar width */
+}
+
+.pp img {
+  position: absolute;
+  top: 0%;
+  left: -10%;
+  height: 100%;
+  object-fit: cover;
+  z-index:-1;
+}
+
+.content{
+    position: absolute;
+    top:30%;
+    left: 45%;
+}
+
+.content .welcome {
+    top: 50%;
+    font-size:90px;
+}
+.content .pro {
+    top: 60%;
+}
+.content .names {
+    position: absolute;
+
+    top: 120%;
+    font-size:18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+}
+
+/* ====================================================================== IMG */
+.searchbar{
+    position: absolute;
+    top:30%;
+    left: 36%;
+}
+
+.btn{
+    background-color: #CC0080;
+}
+
+/* ====================================================================== IMG */
+textarea{
+    width:20%;
+}
