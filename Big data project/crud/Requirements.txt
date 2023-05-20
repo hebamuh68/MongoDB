@@ -1,0 +1,8 @@
+pip install pypdb
+pip install bioservices
+pip install ensembl_rest
+pip install omim
+pip install biopython
+pip install chembl_webresource_client 
+git clone https://github.com/haddocking/prodigy && cd prodigy
+pip install .
