@@ -100,18 +100,16 @@
     {% block content %}
         <div class="">
             <div class="search">
-                <h1 style="color: #CC0080">Insert New Dock</h1>
+                <h1 style="color: #CC0080">Insert New Ligand</h1>
                 <div class="input-group mb-3 pt-5">
                     <form action="" method="post" enctype="multipart/form-data" class="form">
                         {% csrf_token %}
                         <div class="form-group pb-3">{{ form.Name }} {{ form.Id }}</div>
                         <div class="form-group pb-3">{{ form.Solubility }} {{ form.LogP }} </div>
-                        <div class="form-group pb-3">{{ form.MolecularWeight }}{{ form.IUPAC }}</div>
-                        <div class="form-group pb-3">{{ form.DrugScore }}{{ form.DrugLike }}</div>
-                        <div class="form-group pb-3">{{ form.Mutagenecity }}{{ form.Tumorogenecity }}</div>
-                        <div class="form-group pb-3">{{ form.RepEffect }}{{ form.MolecularFormula }}</div>
-                        <div class="form-group pb-3">{{ form.Strcuture }}</div>
-                        <div class="form-group pb-3">{{ form.SmileFormat }}</div>
+                        <div class="form-group pb-3">{{ form.MolecularWeight }} {{ form.IUPAC }}</div>
+                        <div class="form-group pb-3">{{ form.DrugScore }} {{ form.DrugLike }}</div>
+                        <div class="form-group pb-3">{{ form.MolecularFormula }} {{ form.SmileFormat }}</div>
+                        <div class="form-group pb-3">{{ form.structure }}</div>
                         <div class="form-group pb-3">
                             <button class="btn pb-3 text-white"
                                     style="width: 200px; padding-top: 10px; padding-bottom: 10px;

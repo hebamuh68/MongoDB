@@ -17,7 +17,87 @@
 
 <div class="row">
 <!-- ======================================================================== Sidebar -->
-<div class="sidebar col-2 d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="height: 100vh">
+<div class="left-sidebar sidebar  col-2 d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="height: 100vh">
+
+
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                <svg class="bi me-2" width="40" height="32">
+                    <use xlink:href="#bootstrap"></use>
+                </svg>
+                <span class="fs-5">Disease Data Bank</span>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+
+<!--============================================================================================ Protein =======================-->
+                <li class="nav-item pb-3">
+                    <a href="{% url 'Protein_search' %}" class="bg-secondary nav-link text-white" aria-current="page">
+                        <svg class="bi me-2" width="16" height="16">
+                            <use xlink:href="#home"></use>
+                        </svg>
+                         Protein Search
+                    </a>
+                </li>
+                <li class="nav-item pb-3">
+                    <a href="{% url 'Protein_insert' %}" class="bg-secondary nav-link text-white" aria-current="page">
+                        <svg class="bi me-2" width="16" height="16">
+                            <use xlink:href="#home"></use>
+                        </svg>
+                         Protein Insert
+                    </a>
+                </li>
+<!--============================================================================================ Disease =======================-->
+                <li class="nav-item pb-3">
+                    <a href="{% url 'Disease_search' %}" class="active nav-link text-white">
+                        <svg class="bi me-2" width="16" height="16">
+                            <use xlink:href="#speedometer2"></use>
+                        </svg>
+                        Disease Search
+                    </a>
+                </li>
+                <li class="nav-item pb-3">
+                    <a href="{% url 'Disease_insert' %}" class="bg-secondary nav-link text-white">
+                        <svg class="bi me-2" width="16" height="16">
+                            <use xlink:href="#speedometer2"></use>
+                        </svg>
+                        Disease Insert
+                    </a>
+                </li>
+<!--============================================================================================ Bio Activity =======================-->
+                <li class="nav-item pb-3">
+                    <a href="{% url 'BioActivity_insert' %}" class="bg-secondary nav-link text-white">
+                        <svg class="bi me-2" width="16" height="16">
+                            <use xlink:href="#speedometer2"></use>
+                        </svg>
+                        Bio Activity Insert
+                    </a>
+                </li>
+<!--============================================================================================ Dock =======================-->
+                <li class="nav-item pb-3">
+                    <a href="{% url 'Dock_insert' %}" class="bg-secondary nav-link text-white">
+                        <svg class="bi me-2" width="16" height="16">
+                            <use xlink:href="#speedometer2"></use>
+                        </svg>
+                        Dock Insert
+                    </a>
+                </li>
+<!--============================================================================================ Ligand =======================-->
+                <li class="nav-item pb-3">
+                    <a href="{% url 'Ligand_insert' %}" class="bg-secondary nav-link text-white">
+                        <svg class="bi me-2" width="16" height="16">
+                            <use xlink:href="#speedometer2"></use>
+                        </svg>
+                        Ligand Insert
+                    </a>
+                </li>
+            </ul>
+            <hr>
+
+        </div>
+</div>
+
+<!-- ======================================================================== Sidebar -->
+<div class="left-sidebar sidebar  col-2 d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="height: 100vh">
 
 
             <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
@@ -97,7 +177,7 @@
 </div>
 
 <!-- ======================================================================== Search bar -->
-<div class=" searchbar">
+<div class="main-content searchbar">
     {% block content %}
         <div class="">
             <div class="search">
@@ -161,7 +241,7 @@
 </div>
 
 </div>
-</div>
+
 
 <!-- ======================================================================== jQuery first, then Popper.js, then Bootstrap JS. -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
