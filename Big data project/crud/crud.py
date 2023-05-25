@@ -14,7 +14,7 @@ class crud:
 
     def __init__(self):
         # Create connection
-        ##MONGODB_URL = "mongodb+srv://heba:heba333@bigdataproject.nhz6c7e.mongodb.net/?retryWrites=true&w=majority"
+        ##MONGODB_URL = "mongodb+srv://name:password@bigdataproject.nhz6c7e.mongodb.net/?retryWrites=true&w=majority"
         client = MongoClient("localhost", 27017)
         db = client.Diseasome
 
