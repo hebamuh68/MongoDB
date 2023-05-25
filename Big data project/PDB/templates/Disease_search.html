@@ -15,9 +15,10 @@
 <body class="d-flex flex-column min-vh-100">
 
 
+
 <div class="row">
 <!-- ======================================================================== Sidebar -->
-<div class="left-sidebar sidebar  col-2 d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="height: 100vh">
+    <div class="sidebar col-2 d-flex flex-column flex-shrink-0 p-3 text-white" style="height: 100vh;background-color:#354259;">
 
 
             <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
@@ -46,84 +47,20 @@
                          Protein Insert
                     </a>
                 </li>
-<!--============================================================================================ Disease =======================-->
                 <li class="nav-item pb-3">
-                    <a href="{% url 'Disease_search' %}" class="active nav-link text-white">
-                        <svg class="bi me-2" width="16" height="16">
-                            <use xlink:href="#speedometer2"></use>
-                        </svg>
-                        Disease Search
-                    </a>
-                </li>
-                <li class="nav-item pb-3">
-                    <a href="{% url 'Disease_insert' %}" class="bg-secondary nav-link text-white">
-                        <svg class="bi me-2" width="16" height="16">
-                            <use xlink:href="#speedometer2"></use>
-                        </svg>
-                        Disease Insert
-                    </a>
-                </li>
-<!--============================================================================================ Bio Activity =======================-->
-                <li class="nav-item pb-3">
-                    <a href="{% url 'BioActivity_insert' %}" class="bg-secondary nav-link text-white">
-                        <svg class="bi me-2" width="16" height="16">
-                            <use xlink:href="#speedometer2"></use>
-                        </svg>
-                        Bio Activity Insert
-                    </a>
-                </li>
-<!--============================================================================================ Dock =======================-->
-                <li class="nav-item pb-3">
-                    <a href="{% url 'Dock_insert' %}" class="bg-secondary nav-link text-white">
-                        <svg class="bi me-2" width="16" height="16">
-                            <use xlink:href="#speedometer2"></use>
-                        </svg>
-                        Dock Insert
-                    </a>
-                </li>
-<!--============================================================================================ Ligand =======================-->
-                <li class="nav-item pb-3">
-                    <a href="{% url 'Ligand_insert' %}" class="bg-secondary nav-link text-white">
-                        <svg class="bi me-2" width="16" height="16">
-                            <use xlink:href="#speedometer2"></use>
-                        </svg>
-                        Ligand Insert
-                    </a>
-                </li>
-            </ul>
-            <hr>
-
-        </div>
-</div>
-
-<!-- ======================================================================== Sidebar -->
-<div class="left-sidebar sidebar  col-2 d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="height: 100vh">
-
-
-            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                <svg class="bi me-2" width="40" height="32">
-                    <use xlink:href="#bootstrap"></use>
-                </svg>
-                <span class="fs-5">Disease Data Bank</span>
-            </a>
-            <hr>
-            <ul class="nav nav-pills flex-column mb-auto">
-
-<!--============================================================================================ Protein =======================-->
-                <li class="nav-item pb-3">
-                    <a href="{% url 'Protein_search' %}" class="bg-secondary nav-link text-white" aria-current="page">
+                    <a href="{% url 'Protein_insert_many' %}" class="bg-secondary nav-link text-white" aria-current="page">
                         <svg class="bi me-2" width="16" height="16">
                             <use xlink:href="#home"></use>
                         </svg>
-                         Protein Search
+                         Protein Insert Many
                     </a>
                 </li>
                 <li class="nav-item pb-3">
-                    <a href="{% url 'Protein_insert' %}" class="bg-secondary nav-link text-white" aria-current="page">
+                    <a href="{% url 'Protein_delete' %}" class="bg-secondary nav-link text-white" aria-current="page">
                         <svg class="bi me-2" width="16" height="16">
                             <use xlink:href="#home"></use>
                         </svg>
-                         Protein Insert
+                         Delete Protein
                     </a>
                 </li>
 <!--============================================================================================ Disease =======================-->
@@ -143,6 +80,22 @@
                         Disease Insert
                     </a>
                 </li>
+                <li class="nav-item pb-3">
+                    <a href="{% url 'Disease_insert_many' %}" class="bg-secondary nav-link text-white">
+                        <svg class="bi me-2" width="16" height="16">
+                            <use xlink:href="#speedometer2"></use>
+                        </svg>
+                        Disease Insert Many
+                    </a>
+                </li>
+                <li class="nav-item pb-3">
+                <a href="{% url 'Disease_update_many' %}" class="bg-secondary nav-link text-white">
+                    <svg class="bi me-2" width="16" height="16">
+                        <use xlink:href="#speedometer2"></use>
+                    </svg>
+                    Update many Diseases
+                </a>
+            </li>
 <!--============================================================================================ Bio Activity =======================-->
                 <li class="nav-item pb-3">
                     <a href="{% url 'BioActivity_insert' %}" class="bg-secondary nav-link text-white">
@@ -161,6 +114,30 @@
                         Dock Insert
                     </a>
                 </li>
+                 <li class="nav-item pb-3">
+                    <a href="{% url 'Avg_By_Protein' %}" class="bg-secondary nav-link text-white">
+                        <svg class="bi me-2" width="16" height="16">
+                            <use xlink:href="#speedometer2"></use>
+                        </svg>
+                        Property_Avg By Protein
+                    </a>
+                </li>
+                <li class="nav-item pb-3">
+                    <a href="{% url 'Avg_By_Ligand' %}" class="bg-secondary nav-link text-white">
+                        <svg class="bi me-2" width="16" height="16">
+                            <use xlink:href="#speedometer2"></use>
+                        </svg>
+                        Property_Avg By Ligand
+                    </a>
+                </li>
+                <li class="nav-item pb-3">
+                    <a href="{% url 'Dock_property' %}" class="bg-secondary nav-link text-white">
+                        <svg class="bi me-2" width="16" height="16">
+                            <use xlink:href="#speedometer2"></use>
+                        </svg>
+                        Docks In Property Range
+                    </a>
+                </li>
 <!--============================================================================================ Ligand =======================-->
                 <li class="nav-item pb-3">
                     <a href="{% url 'Ligand_insert' %}" class="bg-secondary nav-link text-white">
@@ -170,22 +147,41 @@
                         Ligand Insert
                     </a>
                 </li>
+                <li class="nav-item pb-3">
+                    <a href="{% url 'Ligand_property' %}" class="bg-secondary nav-link text-white">
+                        <svg class="bi me-2" width="16" height="16">
+                            <use xlink:href="#speedometer2"></use>
+                        </svg>
+                        Ligand In Property Range
+                    </a>
+                </li>
+                <li class="nav-item pb-3">
+                    <a href="{% url 'Ligand_insert_many' %}" class="bg-secondary nav-link text-white">
+                        <svg class="bi me-2" width="16" height="16">
+                            <use xlink:href="#speedometer2"></use>
+                        </svg>
+                         Ligand Insert Many
+                    </a>
+                </li>
             </ul>
             <hr>
 
         </div>
 </div>
+
+
 
 <!-- ======================================================================== Search bar -->
 <div class="main-content searchbar">
     {% block content %}
         <div class="">
             <div class="search">
+                <h1 style="color: #9dbbff">Search for Disease</h1>
                 <div class="input-group mb-3 pt-5">
                     <form action="" method="post" enctype="multipart/form-data" class="form">
                         {% csrf_token %}
                         <div class="form-group">
-                            {{ form.Name }} {{ form.Id }}
+                            {{ form.Name }} {{ form.Id }} {{ form.Type }}
                             <button class="btn"
                                     style="width: 200px; padding-top: 10px; padding-bottom: 10px;
                                     border-top-right-radius: 25px; border-bottom-right-radius:
@@ -204,42 +200,135 @@
     <table class="table">
         <tbody>
             <tr>
-                <th scope="row" style="color: #CC0080">Id:</th>
-                <td class="text-white">{{ disease_id }}</td>
+                <th scope="row" style="background-color: #9dbbff; color: white;">Id:</th>
+                <td style="background-color: #9dbbff; color: white;">{{ disease_id }}</td>
             </tr>
             <tr>
-                <th scope="row" style="color: #CC0080">Name:</th>
-                <td class="text-white">{{ disease_name }}</td>
+                <th scope="row" style="color: #9dbbff">Name:</th>
+                <td>{{ disease_name }}</td>
             </tr>
             <tr>
-                <th scope="row" style="color: #CC0080">Disease Type:</th>
-                <td class="text-white">{{ disease_type }}</td>
+                <th scope="row" style="color: #9dbbff">Disease Type:</th>
+                <td >{{ disease_type }}</td>
             </tr>
             <tr>
-                <th scope="row" style="color: #CC0080">PDB_fk:</th>
+                <th scope="row" style="color: #9dbbff">PDB_fk:</th>
                 <td>
                     <textarea rows="5" class="form-control" style="width: 100%" readonly>{{ PDB_fk }}</textarea>
                 </td>
             </tr>
             <tr>
-                <th scope="row" style="color: #CC0080">Protein Seq:</th>
+                <th scope="row" style="color: #9dbbff">Protein Seq:</th>
                 <td>
                     <textarea rows="5" class="form-control" style="width: 100%" readonly>{{ protein_seq }}</textarea>
                 </td>
             </tr>
             <tr>
-                <th scope="row" style="color: #CC0080">Gene Seq:</th>
+                <th scope="row" style="color: #9dbbff">Gene Seq:</th>
                 <td>
                     <textarea rows="5" class="form-control" style="width: 100%" readonly>{{ geneSeq }}</textarea>
                 </td>
             </tr>
         </tbody>
     </table>
+{% elif docs %}
+    <table class="table">
+        <tbody>
+            {% for doc in docs %}
+            <tr>
+                <th scope="row" style="background-color: #9dbbff; color: white;">Id:</th>
+                <td style="background-color: #9dbbff; color: white;">{{ doc.id }}</td>
+            </tr>
+            <tr>
+                <th scope="row" style="color: #9dbbff">Name:</th>
+                <td >{{ doc.Name }}</td>
+            </tr>
+            <tr>
+                <th scope="row" style="color: #9dbbff">Disease Type:</th>
+                <td >{{ doc.Type }}</td>
+            </tr>
+            <tr>
+                <th scope="row" style="color: #9dbbff">PDB_fk:</th>
+                <td>
+                    <textarea rows="5" class="form-control" style="width: 100%" readonly>
+                        {% for pdb in doc.PDB_fk %}
+                            {{ pdb }}
+                        {% endfor %}
+                    </textarea>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" style="color: #9dbbff">Protein Seq:</th>
+                <td>
+                    <textarea rows="5" class="form-control" style="width: 100%" readonly>{{ doc.ProteinSeq }}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" style="color: #9dbbff">Gene Seq:</th>
+                <td>
+                    <textarea rows="5" class="form-control" style="width: 100%" readonly>{{ doc.GeneSeq }}</textarea>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% elif type_docs %}
+    <table class="table">
+        <tbody>
+            {% for doc in type_docs %}
+            <tr>
+                <th scope="row" style="background-color: #9dbbff; color: white;">Id:</th>
+                <td style="background-color: #9dbbff; color: white;">{{ doc.id }}</td>
+            </tr>
+            <tr>
+                <th scope="row" style="color: #9dbbff">Name:</th>
+                <td>{{ doc.Name }}</td>
+            </tr>
+            <tr>
+                <th scope="row" style="color: #9dbbff">Disease Type:</th>
+                <td>{{ doc.Type }}</td>
+            </tr>
+            <tr>
+                <th scope="row" style="color:#9dbbff">PDB_fk:</th>
+                <td>
+                    <textarea rows="5" class="form-control" style="width: 100%" readonly>
+                        {% for pdb in doc.PDB_fk %}
+                            {{ pdb }}
+                        {% endfor %}
+                    </textarea>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" style="color: #9dbbff">Protein Seq:</th>
+                <td>
+                    <textarea rows="5" class="form-control" style="width: 100%" readonly>{{ doc.ProteinSeq }}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" style="color: #9dbbff">Gene Seq:</th>
+                <td>
+                    <textarea rows="5" class="form-control" style="width: 100%" readonly>{{ doc.GeneSeq }}</textarea>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% elif Aggregate_docs %}
+    <table class="table">
+        <tbody>
+            {% for doc in Aggregate_docs %}
+            <tr>
+                <th scope="row" style="background-color: #9dbbff; color: white;">Name:</th>
+                <td style="background-color: #9dbbff; color: white;">{{ doc }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endif %}
-
 {% endblock %}
 </div>
 
+</div>
 </div>
 
 

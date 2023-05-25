@@ -4,6 +4,8 @@
     Each class contains the CRUD operations for each collection to manipulate the data in the database.
 
 """
+import pymongo
+
 class Protein(object):
     """
         The Protein class is responsible for dealing with the CRUD operations for the Protein collection in the Diseasome database.
@@ -15,8 +17,7 @@ class Protein(object):
             As well the object contains the attribute protein which is the mongo collection cursor to access the collection in the
             database and it must be passed in the object declaration,
             finally the attribute properties which holds the collection properties to help doing the CRUD without errors.
-        Thus dealing with Protein collection requires you to declare an object of this class...     
-
+        Thus dealing with Protein collection requires you to declare an object of this class...
     """
     def __init__(self, protein_collection):
         self.protein = protein_collection
@@ -24,9 +25,9 @@ class Protein(object):
         self.name = ""
         self.structure = None
         self.fasta = ""
-        self.properties = ["id", "name", "structure", "fasta"]
+        self.properties = ["id", "Name", "Structure", "FastaFormat"]
 
-    ##Pre-conditions: a declared object from the Protein class with mongo Protein collection passed in object declaration and 
+    ##Pre-conditions: a declared object from the Protein class with mongo Protein collection passed in object declaration and
     # object attributes are populated with data otherwise, the document will be filled with empty values...
     ##Post-conditions:  1 will be returned if values inserted correctly otherwise -1 will be returned...
     def Insert_Protein(self):
@@ -41,10 +42,10 @@ class Protein(object):
             inserted_id = self.protein.insert_one(protein_document).inserted_id
             if inserted_id:
                 return 1
-            
+
         except:
             return -1
-    
+
     ##Pre-conditions: a declared object from the Protein class with mongo Protein collection passed in object declaration, a property
     # and its value must be passed to the Get function...
     ##Post-conditions: a list of the returned documents if the query values exist, otherwise -1 if not exist...
@@ -62,7 +63,7 @@ class Protein(object):
         except:
             print("You entered a non existed property...")
             return -1
-        
+
     ##Pre-conditions: a declared object from the Protein class with mongo Protein collection passed in object declaration, a property
     # and its value must be passed to the Update function but at first you have to pass the id of the wanted document...
     ##Post-conditions: a document will be updated according to the passed parameters...
@@ -77,7 +78,7 @@ class Protein(object):
         except:
             update_stmt = {"$set": {property: value}}
             self.protein.update_one({"id": id}, update_stmt)
-    
+
     ##Pre-conditions: a declared object from the Protein class with mongo Protein collection passed in object declaration, the id
     # of the wanted document must be passed...
     ##Post-conditions: a document will be deleted according to the passed parameters, otherwise -1 will be returned...
@@ -87,18 +88,42 @@ class Protein(object):
         except:
             return -1
 
+    def Get_All(self, use_index=False):
+        if use_index:
+            try:
+                all_documents = self.protein.find().hint([("Name", pymongo.ASCENDING)])
+                returned_values = []
+                for result in all_documents:
+                    returned_values.append(result)
+
+                return returned_values
+            except:
+                print("Something went wrong...")
+                return -1
+        else:
+            try:
+                all_documents = self.protein.find()
+                returned_values = []
+                for result in all_documents:
+                    returned_values.append(result)
+
+                return returned_values
+
+            except:
+                print("Something went wrong...")
+                return -1
 class BioActivity(object):
     """
         The BioActivity class is responsible for dealing with the CRUD operations for the BioActivity collection in the Diseasome database.
         Each object from this class contains the properties of the collection as object attributes which are:
             "id": we will use the uniport id to distinguish the documents,
-            "ic50": it indicates how much drug is needed to inhibit a biological process by half, 
+            "ic50": it indicates how much drug is needed to inhibit a biological process by half,
                     thus providing a measure of potency of an antagonist drug in pharmacological research
             "ki": is an indication of how potent an inhibitor is; it is the concentration required to produce half maximum inhibition,
             "gi50": represents the concentration of a drug that reduces total cell growth by 50%,
             "ec50":the concentration (or dose) effective in producing 50% of the maximal response,
                    and is a convenient way of comparing drug potencies
-            "kd":the ratio of the antibody dissociation rate (koff), how quickly it dissociates from its antigen, to the antibody association 
+            "kd":the ratio of the antibody dissociation rate (koff), how quickly it dissociates from its antigen, to the antibody association
                  rate (kon) of the antibody, how quickly it binds to its antigen
             "ligand_fk": the ligand id from the Ligand collection.
             As well the object contains the attribute bio_activity which is the mongo collection object to access the collection in the
@@ -116,9 +141,9 @@ class BioActivity(object):
         self.ec50 = 0.0
         self.kd = 0.0
         self.ligand_fk = 0
-        self.properties = ["id", "ic50", "ki", "gi50", "ec50", "kd", "ligand_fk"]
+        self.properties = ["id", "IC50", "Ki", "GI50", "EC50", "Kd", "Ligand_fk"]
 
-    ##Pre-conditions: a declared object from the BioActivity class with mongo BioActivity collection passed in object declaration and 
+    ##Pre-conditions: a declared object from the BioActivity class with mongo BioActivity collection passed in object declaration and
     # object attributes are populated with data otherwise, the document will be filled with empty values...
     ##Post-conditions:  1 will be returned if values inserted correctly otherwise -1 will be returned..
     def Insert_BioActivity(self):
@@ -137,7 +162,7 @@ class BioActivity(object):
 
             if inserted_id:
                 return 1
-            
+
         except:
             return -1
 
@@ -183,21 +208,21 @@ class BioActivity(object):
             self.bio_activity.delete_one({"id":id})
         except:
             return -1
-        
+
 class Disease(object):
     """
         The Disease class is responsible for dealing with the CRUD operations for the Disease collection in the Diseasome database.
         Each object from this class contains the properties of the collection as object attributes which are:
             "id": the omim number provided,
-            "name": the disease name, 
+            "name": the disease name,
             "pdb_fk": the PDB id of the protein associated with the disease,
             "protein_seq": the protein sequence,
             "type": the disease inheritance type or no inheritance,
-            "gene_seq": the gene sequence, 
+            "gene_seq": the gene sequence,
             As well the object contains the attribute disease which is the mongo collection object to access the collection in the
             database and it must be passed in the object declaration,
             finally the attribute properties which holds the collection properties to help doing the CRUD without errors.
-        Thus dealing with Disease collection requires you to declare an object of this class...     
+        Thus dealing with Disease collection requires you to declare an object of this class...
 
     """
     def __init__(self, disease_collection):
@@ -208,9 +233,10 @@ class Disease(object):
         self.protein_seq = ""
         self.type = ""
         self.gene_seq = ""
-        self.properties = ["id", "name", "pdb_fk", "protein_seq", "type", "gene_seq"]
+        self.gene_locus = ""
+        self.properties = ["id", "Name", "PDB_fk", "ProteinSeq", "Type", "GeneSeq", "Gene Locus"]
 
-    ##Pre-conditions: a declared object from the Disease class with mongo Disease collection passed in object declaration and 
+    ##Pre-conditions: a declared object from the Disease class with mongo Disease collection passed in object declaration and
     # object attributes are populated with data otherwise, the document will be filled with empty values...
     ##Post-conditions:  1 will be returned if values inserted correctly otherwise -1 will be returned..
     def Insert_Disease(self):
@@ -221,8 +247,9 @@ class Disease(object):
             "ProteinSeq": self.protein_seq,
             "Type": self.type,
             "GeneSeq": self.gene_seq,
+            "Gene Locus": self.gene_locus
         }
-        
+
         try:
             inserted_id = self.disease.insert_one(disease_document).inserted_id
 
@@ -244,13 +271,13 @@ class Disease(object):
             for result in results:
                 returned_values.append(result)
 
-            return results
+            return returned_values
 
         except:
             print("You entered a not existed property...")
             return -1
 
-    ##Pre-conditions: a declared object from the Disease class with mongo Disease collection passed in object declaration, 
+    ##Pre-conditions: a declared object from the Disease class with mongo Disease collection passed in object declaration,
     # a property and its value must be passed to the Update function but at first you have to pass the id of the wanted document...
     ##Post-conditions: a document will be updated according to the passed parameters...
     def Update_Disease(self, id, property, value):
@@ -274,12 +301,36 @@ class Disease(object):
         except:
             return -1
 
+    def Get_All(self, use_index=False):
+        if use_index:
+            try:
+                all_documents = self.disease.find().hint([("Name", pymongo.ASCENDING)])
+                returned_values = []
+                for result in all_documents:
+                    returned_values.append(result)
+
+                return returned_values
+            except:
+                print("Something went wrong...")
+                return -1
+        else:
+            try:
+                all_documents = self.disease.find()
+                returned_values = []
+                for result in all_documents:
+                    returned_values.append(result)
+
+                return returned_values
+
+            except:
+                print("Something went wrong...")
+                return -1
 
 class Dock(object):
     """
         The Dock class is responsible for dealing with the CRUD operations for the Dock collection in the Diseasome database.
         Each object from this class contains the properties of the collection as object attributes which are:
-            "id": self.id,
+            "id": PDB complex id,
             "Intermolecular Contacts": number of intermolecular contacts,
             "Charged-Charged_Contacts": number of charged charged contacts,
             "Charged-Polar-Contacts": number of charged polar contacts,
@@ -296,7 +347,7 @@ class Dock(object):
             As well the object contains the attribute dock which is the mongo collection object to access the collection in the
             database and it must be passed in the object declaration,
             finally the attribute properties which holds the collection properties to help doing the CRUD without errors.
-        Thus dealing with Dock collection requires you to declare an object of this class...     
+        Thus dealing with Dock collection requires you to declare an object of this class...
     """
     def __init__(self, dock_collection):
         self.dock = dock_collection
@@ -314,9 +365,11 @@ class Dock(object):
         self.dissociation_constant = 0.0
         self.ligand_id = 0
         self.pdb_id = 0
-        self.properties = ["id", "rmsd", "binding_affinity", "binding_free_energy", "ligand_id", "pdb_id"]
+        self.properties = ["id", "Intermolecular Contacts", "Charged-Charged_Contacts", "Charged-Polar-Contacts"
+        "Charged-Apolar-Contacts", "Polar-Polar-Contacts", "Apolar-Polar-Contacts", "Apolar-Apolar-Contacts", "Binding Affinity",
+        "Dissociation Constant", "Charged NIS Residues Percentage", "Apolar NIS Residues Percentage", "Ligand_id", "PDB_id"]
 
-    ##Pre-conditions: a declared object from the Dock class with mongo Dock collection passed in object declaration and 
+    ##Pre-conditions: a declared object from the Dock class with mongo Dock collection passed in object declaration and
     # object attributes are populated with data otherwise, the document will be filled with empty values...
     ##Post-conditions:  1 will be returned if values inserted correctly otherwise -1 will be returned..
     def Insert_Dock(self):
@@ -356,14 +409,14 @@ class Dock(object):
             returned_values = []
             for result in results:
                 returned_values.append(result)
-            
+
             return returned_values
 
         except:
             print("You entered a not existed property...")
             return -1
-        
-    ##Pre-conditions: a declared object from the Dock class with mongo Dock collection passed in object declaration, 
+
+    ##Pre-conditions: a declared object from the Dock class with mongo Dock collection passed in object declaration,
     # a property and its value must be passed to the Update function but at first you have to pass the id of the wanted document...
     ##Post-conditions: a document will be updated according to the passed parameters...
     def Update_Dock(self, id, property, value):
@@ -377,7 +430,7 @@ class Dock(object):
         except:
             update_stmt = {"$set": {property: value}}
             self.dock.update_one({"id": id}, update_stmt)
-    
+
     ##Pre-conditions: a declared object from the Dock class with mongo Dock collection passed in object declaration,
     # the id of the wanted document must be passed...
     ##Post-conditions: a document will be deleted according to the passed parameters, otherwise -1 will be returned...
@@ -395,7 +448,7 @@ class Ligand(object):
             "id": the ligand id from chembl,
             "Name": the ligand name,
             "Solubility": property of a substance (solute) to dissolve in a given solvent,
-            "LogP": determines how well a drug will be absorbed, transported, and distributed in the body 
+            "LogP": determines how well a drug will be absorbed, transported, and distributed in the body
                     but also dictates how a drug should be formulated and dosed,
             "MolecularWeight": the ligand molecular weight,
             "IUPAC": the iupac formula of the ligand,
@@ -407,7 +460,7 @@ class Ligand(object):
             As well the object contains the attribute ligand which is the mongo collection object to access the collection in the
             database and it must be passed in the object declaration,
             finally the attribute properties which holds the collection properties to help doing the CRUD without errors.
-        Thus dealing with Ligand collection requires you to declare an object of this class...     
+        Thus dealing with Ligand collection requires you to declare an object of this class...
     """
     def __init__(self, ligand_collection):
         self.ligand = ligand_collection
@@ -422,11 +475,11 @@ class Ligand(object):
         self.drug_like = None
         self.smile_format = None
         self.molecular_formula = ""
-        self.properties = ["id", "name", "solubility", "logp", "molecular weight",
-                           "iupac", "structure", "drug score", "drug like", "mutagenecity",
-                           "tumorogenecity", "rep effect", "smile format", "molecular formula"]
+        self.properties = ["id", "Name", "Solubility", "LogP", "MolecularWeight",
+                           "IUPAC", "Structure", "DrugScore", "DrugLike", "SmileFormat",
+                           "MolecularFormula"]
 
-    ##Pre-conditions: a declared object from the Ligand class with mongo Ligand collection passed in object declaration and 
+    ##Pre-conditions: a declared object from the Ligand class with mongo Ligand collection passed in object declaration and
     # object attributes are populated with data otherwise, the document will be filled with empty values...
     ##Post-conditions:  1 will be returned if values inserted correctly otherwise -1 will be returned..
     def Insert_Ligand(self):
@@ -464,14 +517,14 @@ class Ligand(object):
             returned_values = []
             for result in results:
                 returned_values.append[result]
-            
+
             return returned_values
 
         except:
             print("You entered a not existed property...")
             return -1
 
-    ##Pre-conditions: a declared object from the Ligand class with mongo Ligand collection passed in object declaration, 
+    ##Pre-conditions: a declared object from the Ligand class with mongo Ligand collection passed in object declaration,
     # a property and its value must be passed to the Update function but at first you have to pass the id of the wanted document...
     ##Post-conditions: a document will be updated according to the passed parameters...
     def Update_Ligand(self, id, property, value):
@@ -494,6 +547,3 @@ class Ligand(object):
             self.ligand.delete_one({"id":id})
         except:
             return -1
-
-
-

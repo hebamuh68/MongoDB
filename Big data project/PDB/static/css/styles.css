@@ -4,18 +4,22 @@
 /* ====================================================================== BODY */
 body {
     font-family: 'Poppins';
-    background-color: black;
+    background-color: #ECF2FF;
     color: white;
 }
 
 .btn:hover{
-    color:#CC0080 !important;
-    background-color: white;
+    color:#white !important;
+    background-color: #354259;
 }
 
 /* ====================================================================== sidebar */
 .fs-5{
-    color: #CC0080;
+    color: #9dbbff;
+}
+
+h1{
+    color: #9dbbff;
 }
 
 .sidebar {
@@ -24,10 +28,11 @@ body {
   left: 0;
   height: 100vh;
   z-index: 100;
+
 }
 
 .sidebar .nav-link.active {
-    background-color: #CC0080;
+    background-color: #9dbbff;
 }
 
 .bg-secondary{
@@ -83,10 +88,14 @@ body {
 }
 
 .btn{
-    background-color: #CC0080;
+    background-color: #9dbbff;
 }
 
 /* ====================================================================== IMG */
 textarea{
     width:20%;
+}
+
+.custom-select {
+       width:200px;
 }

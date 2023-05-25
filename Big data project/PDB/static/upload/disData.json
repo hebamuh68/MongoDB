@@ -1,0 +1,25 @@
+[
+{
+"id":"lol1",
+"Name":"Disease Name1",
+"Type":"abc",
+"ProteinSeq":"protein sequence...",
+"GeneSeq":"Gene sequence...",
+"PDB_fk":"The PDB id from the Protein collection"
+},
+{
+    "id":"lol12",
+    "Name":"Disease Name2",
+    "Type":"abc",
+    "ProteinSeq":"protein sequence...",
+    "GeneSeq":"Gene sequence...",
+    "PDB_fk":"The PDB id from the Protein collection"
+},
+{
+        "id":"lol13",
+        "Name":"Disease Name3",
+        "Type":"abc",
+        "ProteinSeq":"protein sequence...",
+        "GeneSeq":"Gene sequence...",
+        "PDB_fk":"The PDB id from the Protein collection"
+}]

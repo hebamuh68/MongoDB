@@ -15,8 +15,8 @@
 <body class="d-flex flex-column min-vh-100">
 
 <div class="row">
-    <!-- ======================================================================== Sidebar -->
-    <div class="sidebar col-2 d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="height: 100vh">
+<!-- ======================================================================== Sidebar -->
+    <div class="sidebar col-2 d-flex flex-column flex-shrink-0 p-3 text-white" style="height: 100vh;background-color:#354259;">
 
 
         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
@@ -28,7 +28,7 @@
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
 
-            <!--============================================================================================ Protein =======================-->
+<!--============================================================================================ Protein =======================-->
             <li class="nav-item pb-3">
                 <a href="{% url 'Protein_search' %}" class="bg-secondary nav-link text-white" aria-current="page">
                     <svg class="bi me-2" width="16" height="16">
@@ -45,7 +45,23 @@
                     Protein Insert
                 </a>
             </li>
-            <!--============================================================================================ Disease =======================-->
+                <li class="nav-item pb-3">
+                    <a href="{% url 'Protein_insert_many' %}" class="bg-secondary nav-link text-white" aria-current="page">
+                        <svg class="bi me-2" width="16" height="16">
+                            <use xlink:href="#home"></use>
+                        </svg>
+                         Protein Insert Many
+                    </a>
+                </li>
+                <li class="nav-item pb-3">
+                    <a href="{% url 'Protein_delete' %}" class="bg-secondary nav-link text-white" aria-current="page">
+                        <svg class="bi me-2" width="16" height="16">
+                            <use xlink:href="#home"></use>
+                        </svg>
+                         Delete Protein
+                    </a>
+                </li>
+<!--============================================================================================ Disease =======================-->
             <li class="nav-item pb-3">
                 <a href="{% url 'Disease_search' %}" class="bg-secondary nav-link text-white">
                     <svg class="bi me-2" width="16" height="16">
@@ -62,7 +78,23 @@
                     Disease Insert
                 </a>
             </li>
-            <!--============================================================================================ Bio Activity =======================-->
+            <li class="nav-item pb-3">
+                <a href="{% url 'Disease_insert_many' %}" class="bg-secondary nav-link text-white">
+                    <svg class="bi me-2" width="16" height="16">
+                        <use xlink:href="#speedometer2"></use>
+                    </svg>
+                    Disease Insert Many
+                </a>
+            </li>
+            <li class="nav-item pb-3">
+                <a href="{% url 'Disease_update_many' %}" class="bg-secondary nav-link text-white">
+                    <svg class="bi me-2" width="16" height="16">
+                        <use xlink:href="#speedometer2"></use>
+                    </svg>
+                    Update many Diseases
+                </a>
+            </li>
+<!--============================================================================================ Bio Activity =======================-->
             <li class="nav-item pb-3">
                 <a href="{% url 'BioActivity_insert' %}" class="bg-secondary nav-link text-white">
                     <svg class="bi me-2" width="16" height="16">
@@ -71,7 +103,7 @@
                     Bio Activity Insert
                 </a>
             </li>
-            <!--============================================================================================ Dock =======================-->
+<!--============================================================================================ Dock =======================-->
             <li class="nav-item pb-3">
                 <a href="{% url 'Dock_insert' %}" class="active nav-link text-white">
                     <svg class="bi me-2" width="16" height="16">
@@ -80,7 +112,31 @@
                     Dock Insert
                 </a>
             </li>
-            <!--============================================================================================ Ligand =======================-->
+                 <li class="nav-item pb-3">
+                    <a href="{% url 'Avg_By_Protein' %}" class="bg-secondary nav-link text-white">
+                        <svg class="bi me-2" width="16" height="16">
+                            <use xlink:href="#speedometer2"></use>
+                        </svg>
+                        Property_Avg By Protein
+                    </a>
+                </li>
+                <li class="nav-item pb-3">
+                    <a href="{% url 'Avg_By_Ligand' %}" class="bg-secondary nav-link text-white">
+                        <svg class="bi me-2" width="16" height="16">
+                            <use xlink:href="#speedometer2"></use>
+                        </svg>
+                        Property_Avg By Ligand
+                    </a>
+                </li>
+                <li class="nav-item pb-3">
+                    <a href="{% url 'Dock_property' %}" class="bg-secondary nav-link text-white">
+                        <svg class="bi me-2" width="16" height="16">
+                            <use xlink:href="#speedometer2"></use>
+                        </svg>
+                        Docks In Property Range
+                    </a>
+                </li>
+<!--============================================================================================ Ligand =======================-->
             <li class="nav-item pb-3">
                 <a href="{% url 'Ligand_insert' %}" class="bg-secondary nav-link text-white">
                     <svg class="bi me-2" width="16" height="16">
@@ -89,6 +145,23 @@
                     Ligand Insert
                 </a>
             </li>
+            <li class="nav-item pb-3">
+                <a href="{% url 'Ligand_property' %}" class="bg-secondary nav-link text-white">
+                    <svg class="bi me-2" width="16" height="16">
+                        <use xlink:href="#speedometer2"></use>
+                    </svg>
+                    Ligand In Property Range
+                </a>
+            </li>
+            <li class="nav-item pb-3">
+                <a href="{% url 'Ligand_insert_many' %}" class="bg-secondary nav-link text-white">
+                    <svg class="bi me-2" width="16" height="16">
+                        <use xlink:href="#speedometer2"></use>
+                    </svg>
+                     Ligand Insert Many
+                </a>
+            </li>
+
         </ul>
         <hr>
 
@@ -100,34 +173,34 @@
     {% block content %}
     <div class="">
         <div class="search">
-            <h1 style="color: #CC0080">Insert New Dock</h1>
+            <h1 style="color: #9dbbff">Insert New Dock</h1>
             <div class="input-group mb-3 pt-5">
                 <form action="" method="post" enctype="multipart/form-data" class="form">
                     {% csrf_token %}
-                    <div class="form-group pb-3">{{ form.Id }} {{ form.intermolecular_contacts }}</div>
-                    <div class="form-group pb-3">{{ form.charged_charged_contacts }} {{ form.charged_polar_contacts }}
-                    </div>
-                    <div class="form-group pb-3">{{ form.charged_apolar_contacts }} {{ form.polar_polar_contacts }}
-                    </div>
-                    <div class="form-group pb-3">{{ form.aploar_polar_contacts }} {{ form.apolar_apolar_contacts }}
-                    </div>
-                    <div class="form-group pb-3">{{ form.dissociation_constant }} {{ form.charged_nis_residues_percentage }}
-                    </div>
-                    <div class="form-group pb-3">{{ form.aploar_nis_residues_percentage }} {{ form.binding_affinity }}</div>
-                    <div class="form-group pb-3">{{ form.PDB_id }} {{ form.Ligand_id }}</div>
-                    <div class="form-group pb-3">
-                        <button class="btn pb-3 text-white"
-                                style="width: 200px; padding-top: 10px; padding-bottom: 10px;
-                                    border-radius:25px; margin:0px" type="submit">Insert
-                        </button>
-                    </div>
+                        <div class="form-group pb-3">{{ form.Id }} {{ form.intermolecular_contacts }}</div>
+                        <div class="form-group pb-3">{{ form.charged_charged_contacts }} {{ form.charged_polar_contacts }}
+                        </div>
+                        <div class="form-group pb-3">{{ form.charged_apolar_contacts }} {{ form.polar_polar_contacts }}
+                        </div>
+                        <div class="form-group pb-3">{{ form.aploar_polar_contacts }} {{ form.apolar_apolar_contacts }}
+                        </div>
+                        <div class="form-group pb-3">{{ form.dissociation_constant }} {{ form.charged_nis_residues_percentage }}
+                        </div>
+                        <div class="form-group pb-3">{{ form.aploar_nis_residues_percentage }} {{ form.binding_affinity }}</div>
+                        <div class="form-group pb-3">{{ form.PDB_id }} {{ form.Ligand_id }}</div>
+                        <div class="form-group pb-3">
+                            <button class="btn pb-3 text-white"
+                                    style="width: 200px; padding-top: 10px; padding-bottom: 10px;
+                                        border-radius:25px; margin:0px" type="submit">Insert
+                            </button>
+                        </div>
                 </form>
             </div>
         </div>
     </div>
 
     <!-- =================================================================== Search result -->
-    <div>
+    <div class="text-dark">
         {% if insert_res %}
         {{insert_res}}
         {% endif %}

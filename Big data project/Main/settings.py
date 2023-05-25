@@ -67,8 +67,8 @@ DATABASES = {
             'NAME': 'Diseasome',
             'ENFORCE_SCHEMA': False,
             'CLIENT': {
-                'host': 'mongodb+srv://heba:heba333@bigdataproject.nhz6c7e.mongodb.net/?retryWrites=true&w=majority'
-            }
+                'host': 'localhost'
+}
         }
 }
 

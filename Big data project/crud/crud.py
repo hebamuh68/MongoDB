@@ -1,14 +1,21 @@
+from Bio.PDB import PDBIO
 from pymongo import MongoClient
 from Bio.PDB.PDBParser import PDBParser
 import pickle
-import nglview as nv
+import json
+
+from crud.Diseasome import Disease
+
+
+# from Diseasome import Disease
+
 
 class crud:
 
     def __init__(self):
         # Create connection
-        MONGODB_URL = "mongodb+srv://Al-Hassan:Bigdata1128@bigdataproject.nhz6c7e.mongodb.net/?retryWrites=true&w=majority"
-        client = MongoClient(MONGODB_URL)
+        ##MONGODB_URL = "mongodb+srv://heba:heba333@bigdataproject.nhz6c7e.mongodb.net/?retryWrites=true&w=majority"
+        client = MongoClient("localhost", 27017)
         db = client.Diseasome
 
         # Collections
@@ -39,24 +46,6 @@ class crud:
             return -1
 
     # ======================================================================================================================= Disease
-    def Disease_search(self, id, name):
-        disease_to_find = {
-            "id": id,
-            "Name": name
-        }
-        search_res = self.Disease_collection.find_one(disease_to_find)
-        if search_res:
-            disease_id = search_res["id"]
-            disease_name = search_res["Name"]
-            PDB_fk = search_res["PDB_fk"]
-            protein_seq = search_res["ProteinSeq"]
-            disease_type = search_res["Type"]
-            geneSeq = search_res["GeneSeq"]
-            gene_locus = search_res["Gene Locus"]
-            return disease_id, disease_name, PDB_fk, protein_seq, disease_type, geneSeq, gene_locus
-        else:
-            return None
-
     def Disease_insert(self, id, name, pdb_fk, protein_seq, d_type, gene_seq, gene_locus):
         pdb_fk = pdb_fk.split(",")
         disease_to_insert = {
@@ -76,7 +65,109 @@ class crud:
         except:
             return -1
 
-    # ======================================================================================================================= Dock
+    def Disease_insert_many(self, file_path):
+        try:
+            with open(file_path) as f:
+                data = json.load(f)
+
+            insert_res = self.Disease_collection.insert_many(data)
+
+            if insert_res:
+                return "Added Successfully"
+        except:
+            return -1
+
+    def Disease_search(self, id=None, name=None):
+
+        if name == "":
+            disease_to_find = {
+                "id": id,
+            }
+        else:
+            disease_to_find = {
+                "id": id,
+                "Name": name
+            }
+        search_res = self.Disease_collection.find_one(disease_to_find)
+        if search_res:
+            disease_id = search_res["id"]
+            disease_name = search_res["Name"]
+            PDB_fk = search_res["PDB_fk"]
+            protein_seq = search_res["ProteinSeq"]
+            disease_type = search_res["Type"]
+            geneSeq = search_res["GeneSeq"]
+            gene_locus = search_res["Gene Locus"]
+            return disease_id, disease_name, PDB_fk, protein_seq, disease_type, geneSeq, gene_locus
+        else:
+            return None
+
+    def Search_By_Disease_Name(self, disease_name=None):
+        disease = Disease(self.Disease_collection)
+
+        if disease_name:
+            results = []
+            all_documents = disease.Get_All(use_index=True)
+            if all_documents != -1:
+                for document in all_documents:
+                    if disease_name.lower() in document["Name"].lower():
+                        results.append(document)
+                return results
+            else:
+                print("No data has been returned...")
+                return -1
+
+        else:
+            return disease.Get_All(use_index=True)
+
+    def Search_Disease_By_Name_And_Type(self, name, type):
+        disease = Disease(self.Disease_collection)
+        results = []
+        all_documents = disease.Get_All(use_index=True)
+        if all_documents != -1:
+            for doc in all_documents:
+                if name.lower() in doc["Name"].lower() and type.lower() in doc["Type"].lower():
+                    results.append(doc)
+
+            return results
+
+        else:
+            print("Something went wrong...")
+            return -1
+
+    def Aggregate_By_Disease_Name(self, type):
+        pipeline = [
+            {
+                "$match": {"Type": "No Inheritance"}
+            },
+            {
+                "$group": {"_id": "$Name"}
+            }
+        ]
+        results = []
+        for res in self.Disease_collection.aggregate(pipeline):
+            results.append(res['_id'])
+
+        return results
+
+    def Disease_update_many(self, type, property, new_value):
+        filter_criteria = {
+            'Type': type
+        }
+
+        update_operation = {
+            '$set': {
+                property: new_value
+            }
+        }
+        try:
+            update_result = self.Disease_collection.update_many(filter_criteria, update_operation)
+
+            if update_result:
+                return "Updated Successfully"
+        except:
+            return -1
+
+    # Dock =======================================================================================================================
     def Dock_insert(self, id, num_of_intermolecular_contacts, num_of_charged_charged_contacts,
                     num_of_charged_polar_contacts, num_of_charged_apolar_contacts, num_of_polar_polar_contacts,
                     num_of_aploar_polar_contacts, num_of_apolar_apolar_contacts, binding_affinity,
@@ -106,7 +197,55 @@ class crud:
         except:
             return -1
 
-    # ======================================================================================================================= Ligand
+    def Get_Property_Avg_By_Protein(self, protein_pdb_id, property_value="Binding Affinity"):
+        pipeline = [
+            {
+                "$match": {"PDB_id": f"{protein_pdb_id}"}
+            },
+            {
+                "$group": {
+                    "_id": "$PDB_id",
+                    "AVG": {"$avg": f"${property_value}"}
+                }
+            }
+        ]
+
+        results = []
+        for res in self.Dock_collection.aggregate(pipeline):
+            res['id'] = res.pop('_id')
+            results.append(res)
+
+        return results
+
+    def Get_Property_Avg_By_Ligand(self, ligand_id, property_value="Binding Affinity"):
+        pipeline = [
+            {
+                "$match": {"Ligand_id": ligand_id}
+            },
+            {
+                "$group": {
+                    "_id": "$Ligand_id",
+                    "AVG": {"$avg": f"${property_value}"}
+                }
+            }
+        ]
+
+        results = []
+        for res in self.Dock_collection.aggregate(pipeline):
+            res['id'] = res.pop('_id')
+            results.append(res)
+
+        return results
+
+    def Get_Docks_In_Property_Range(self, property_value="Intermolecular Contacts", value_range=[0, 5000]):
+        results = []
+        for res in self.Dock_collection.find(
+                {f"{property_value}": {'$in': [x for x in range(value_range[0], value_range[1])]}}):
+            results.append(res)
+
+        return results
+
+    # Ligand =======================================================================================================================
     def Ligand_insert(self, id, Name, Solubility, LogP, MolecularWeight, IUPAC, Structure, DrugScore, DrugLike,
                       SmileFormat, MolecularFormula):
         pdb_parser = PDBParser()
@@ -134,12 +273,42 @@ class crud:
         except:
             return -1
 
-    # ======================================================================================================================= Protein
-    def Protein_search(self, id, name):
-        protein_to_find = {
-            "id": id,
-            "Name": name
-        }
+    def Ligand_insert_many(self, file_path):
+        try:
+            with open(file_path) as f:
+                data = json.load(f)
+
+            insert_res = self.Ligand_collection.insert_many(data)
+
+            if insert_res:
+                return "Added Successfully"
+        except:
+            return -1
+
+    def Get_Ligand_Ids_By_BioActivity(self, type="IC50", value_range=[0, 10000]):
+        results = []
+        for res in self.BioActivity_collection.find(
+                {"$and": [{f"{type}": {"$gt": value_range[0]}}, {f"{type}": {"$lt": value_range[1]}}]}):
+            results.append(res["Ligand_fk"])
+
+        return results
+
+    # Protein =======================================================================================================================
+    def Protein_search(self, id=None, name=None):
+        if id == None:
+            protein_to_find = {
+                "Name": name
+            }
+        elif name == None:
+            protein_to_find = {
+                "id": id,
+            }
+        else:
+            protein_to_find = {
+                "id": id,
+                "Name": name
+            }
+
         search_res = self.Protein_collection.find_one(protein_to_find)
         if search_res:
             protein_id = search_res["id"]
@@ -149,7 +318,16 @@ class crud:
 
             structure = pickle.loads(pickled_structure)
 
-            return protein_id, protein_name, structure, fasta_format
+            # Define the filename for the output text file
+            output_name = f"PDB/static/upload/{protein_id}.pdb"
+            structure_name = f"{protein_id}.pdb"
+
+            # Save the structure as a PDB file
+            pdb_io = PDBIO()
+            pdb_io.set_structure(structure)
+            pdb_io.save(output_name)
+
+            return protein_id, protein_name, structure_name, fasta_format
         else:
             return None
 
@@ -172,49 +350,43 @@ class crud:
         except:
             return -1
 
+    def Protein_insert_many(self, file_path):
+        try:
+            with open(file_path) as f:
+                data = json.load(f)
 
+            insert_res = self.Protein_collection.insert_many(data)
+
+            if insert_res:
+                return "Added Successfully"
+        except:
+            return -1
+
+    def Protein_delete(self, id=None, Name=None):
+        if id == None:
+            protein_to_delete = {
+                "Name": Name,
+            }
+        elif Name == None:
+            protein_to_delete = {
+                "id": id,
+            }
+        else:
+            protein_to_delete = {
+                "id": id,
+                "Name": Name,
+            }
+        try:
+            delete_res = self.Protein_collection.delete_one(protein_to_delete)
+            if delete_res:
+                return "Deleted Successfully"
+        except:
+            return -1
+#
 # obj = crud()
-# # # # # disease_id, disease_name, PDB_fk, protein_seq, disease_type, geneSeq, gene_locus = obj.Disease_search(602452, 'Colorectal cancer with chromosomal instability, somatic')
-# # # # # print(disease_id, disease_name, PDB_fk, protein_seq, disease_type, geneSeq, gene_locus)
-# # # res = obj.Protein_insert("2232", 'ddd', 'dsds', 'sds', "../PDB/static/upload/1zik.pdb")
-# # res = obj.Ligand_insert("heba", "heba", None, -1.2, 507.4, None, "../PDB/static/upload/1zik.pdb", None, None,
-# #                         "Nc1ncnc2c1ncn2[C@@H]1O[C@H](COP(=O)(O)OP(=O)(O)OP(=O)(O)O)[C@@H](O)[C@H]1O", "C10H16N5O13P3")
-# #
-# protein_id, protein_name, structure, fasta_format = obj.Protein_search("1zik","gcn4-leucine zipper core mutant asn16lys in the dimeric state")
-# print(protein_id, protein_name, structure, fasta_format)
-
-
-from pymongo import MongoClient
-import pickle
-import nglview as nv
-
-def Protein_search(Id, name):
-    MONGODB_URL = "mongodb+srv://Al-Hassan:Bigdata1128@bigdataproject.nhz6c7e.mongodb.net/?retryWrites=true&w=majority"
-    client = MongoClient(MONGODB_URL)
-    db = client.Diseasome
-
-    Protein_collection = db.Protein
-
-    protein_to_find = {
-        "id": Id,
-        "Name": name
-    }
-    search_res = Protein_collection.find_one(protein_to_find)
-    if search_res:
-        protein_id = search_res["id"]
-        protein_name = search_res["Name"]
-        pickled_structure = search_res["Structure"]
-        fasta_format = search_res["FastaFormat"]
-
-        return protein_id, protein_name, pickled_structure, fasta_format
-    else:
-        return None
-
-protein_id, protein_name, pickled_structure, fasta_format = Protein_search("1zik", "gcn4-leucine zipper core mutant asn16lys in the dimeric state")
-if protein_id:
-    struc = pickle.loads(pickled_structure)
-    view = nv.show_biopython(struc)
-    view._remote_call('setSize', target='Widget', args=['600px', '400px'])  # Set the size of the viewer
-    print(view)  # Display the viewer
-else:
-    print("Protein not found in the database.")
+# protein_id, protein_name, structure_name, fasta_format = obj.Protein_search(name="gcn4-leucine zipper core mutant asn16lys in the dimeric state")
+# print(protein_id, protein_name, structure_name, fasta_format)
+# # #
+# # # #protein_id, protein_name, structure_name, fasta_format = obj.Protein_search("1zik")
+# # # protein_id, protein_name, structure_name, fasta_format = obj.Protein_search(name="gcn4-leucine zipper core mutant asn16lys in the dimeric state")
+# # # print(protein_id, protein_name, structure_name, fasta_format)

@@ -29,11 +29,13 @@ class BioActivity_insert_form(forms.Form):
 
 class Disease_search_form(forms.Form):
     Name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Disease Name',
-                                                         'style': 'width: 400px; border-top-left-radius: 25px; '
+                                                         'style': 'width: 200px; border-top-left-radius: 25px; '
                                                                   'border-bottom-left-radius: 25px; '
-                                                                  'padding: 10px;'}))
+                                                                  'padding: 10px;'}), required=False)
     Id = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder': 'Disease Id',
-                                                          'style': 'width: 200px;''padding: 10px;'}))
+                                                          'style': 'width: 200px;''padding: 10px;'}), required=False)
+    Type = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Disease Type',
+                                                         'style': 'width: 200px;''padding: 10px;'}), required=False)
 
 
 class Disease_insert_form(forms.Form):
@@ -51,6 +53,32 @@ class Disease_insert_form(forms.Form):
                                                             'style': 'width: 800px;''padding: 10px;'}))
     gene_locus = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Gene locus',
                                                                'style': 'width: 800px;''padding: 10px;'}))
+
+
+class Disease_insert_many_form(forms.Form):
+    data_file = forms.FileField()
+
+
+class Disease_update_many_form(forms.Form):
+    Type = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'update type',
+                                                         'style': 'width: 200px;''padding: 10px;'}))
+
+    CHOICES = [
+        ('id', 'id'),
+        ('Name', 'Name'),
+        ('ProteinSeq', 'ProteinSeq'),
+        ('GeneSeq', 'GeneSeq'),
+        ('Charged-Apolar-Contacts', 'Charged-Apolar-Contacts'),
+        ('Gene Locus', 'Gene Locus'),
+        ('Type', 'Type'),
+        ('PDB_fk', 'PDB_fk'),
+    ]
+
+    property = forms.ChoiceField(choices=CHOICES, widget=forms.Select(
+        attrs={'placeholder': "property", 'style': 'width: 200px;''padding: 10px;'}))
+
+    new_value = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'new value',
+                                                              'style': 'width: 200px;''padding: 10px;'}))
 
 
 # Dock =======================================================================================================================
@@ -88,22 +116,92 @@ class Dock_insert_form(forms.Form):
                                                               'style': 'width: 400px;''padding: 10px;'}))
 
 
-# ======================================================================================================================= Ligand
+class Avg_By_Protein_form(forms.Form):
+    protein_id = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Protein id',
+                                                               'style': 'width: 400px; border-top-left-radius: 25px; '
+                                                                        'border-bottom-left-radius: 25px; '
+                                                                        'padding: 10px;'}))
+    CHOICES = [
+        ('Binding Affinity', 'Binding Affinity'),
+        ('BindingFreeEnergy', 'BindingFreeEnergy'),
+        ('Charged-Charged_Contacts', 'Charged-Charged_Contacts'),
+        ('Charged-Polar-Contacts', 'Charged-Polar-Contacts'),
+        ('Charged-Apolar-Contacts', 'Charged-Apolar-Contacts'),
+        ('Polar-Polar-Contacts', 'Polar-Polar-Contacts'),
+        ('Apolar-Polar-Contacts', 'Apolar-Polar-Contacts'),
+        ('Apolar-Apolar-Contacts', 'Apolar-Apolar-Contacts'),
+        ('Dissociation Constant', 'Dissociation Constant'),
+        ('Intermolecular Contacts', 'Intermolecular Contacts'),
+        ('Charged NIS Residues Percentage', 'Charged NIS Residues Percentage'),
+        ('Apolar NIS Residues Percentage', 'Apolar NIS Residues Percentage'),
+
+    ]
+
+    my_choice = forms.ChoiceField(choices=CHOICES, widget=forms.Select(attrs={'style': 'width: 400px;padding: 10px;'}))
+
+class Avg_By_Ligand_form(forms.Form):
+    Ligand_id = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder': 'Ligand id',
+                                                              'style': 'width: 400px; border-top-left-radius: 25px; '
+                                                                       'border-bottom-left-radius: 25px; '
+                                                                       'padding: 10px;'}))
+    CHOICES = [
+        ('Binding Affinity', 'Binding Affinity'),
+        ('BindingFreeEnergy', 'BindingFreeEnergy'),
+        ('Charged-Charged_Contacts', 'Charged-Charged_Contacts'),
+        ('Charged-Polar-Contacts', 'Charged-Polar-Contacts'),
+        ('Charged-Apolar-Contacts', 'Charged-Apolar-Contacts'),
+        ('Polar-Polar-Contacts', 'Polar-Polar-Contacts'),
+        ('Apolar-Polar-Contacts', 'Apolar-Polar-Contacts'),
+        ('Apolar-Apolar-Contacts', 'Apolar-Apolar-Contacts'),
+        ('Dissociation Constant', 'Dissociation Constant'),
+        ('Intermolecular Contacts', 'Intermolecular Contacts'),
+        ('Charged NIS Residues Percentage', 'Charged NIS Residues Percentage'),
+        ('Apolar NIS Residues Percentage', 'Apolar NIS Residues Percentage'),
+
+    ]
+
+    my_choice = forms.ChoiceField(choices=CHOICES, widget=forms.Select(attrs={'style': 'width: 400px;padding: 10px;'}))
+
+
+class Docks_In_Property_Range_form(forms.Form):
+    CHOICES = [
+        ('Binding Affinity', 'Binding Affinity'),
+        ('BindingFreeEnergy', 'BindingFreeEnergy'),
+        ('Charged-Charged_Contacts', 'Charged-Charged_Contacts'),
+        ('Charged-Polar-Contacts', 'Charged-Polar-Contacts'),
+        ('Charged-Apolar-Contacts', 'Charged-Apolar-Contacts'),
+        ('Polar-Polar-Contacts', 'Polar-Polar-Contacts'),
+        ('Apolar-Polar-Contacts', 'Apolar-Polar-Contacts'),
+        ('Apolar-Apolar-Contacts', 'Apolar-Apolar-Contacts'),
+        ('Dissociation Constant', 'Dissociation Constant'),
+        ('Intermolecular Contacts', 'Intermolecular Contacts'),
+
+    ]
+
+    my_choice = forms.ChoiceField(choices=CHOICES, widget=forms.Select(attrs={'style': 'width: 400px; '
+                                                                                       'border-top-left-radius: 25px; '
+                                                                                       'border-bottom-left-radius: 25px; '
+                                                                                       'padding: 10px;'}))
+
+
+# Ligand =======================================================================================================================
 class Ligand_insert_form(forms.Form):
     Name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Ligand Name',
                                                          'style': 'width: 400px;''padding: 10px;'}))
     Id = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Ligand Id',
-                                                          'style': 'width: 400px;''padding: 10px;'}))
+                                                       'style': 'width: 400px;''padding: 10px;'}))
     Solubility = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Solubility',
-                                                               'style': 'width: 400px;''padding: 10px;'}), required=False)
+                                                               'style': 'width: 400px;''padding: 10px;'}),
+                                 required=False)
     LogP = forms.FloatField(widget=forms.TextInput(attrs={'placeholder': 'LogP',
-                                                            'style': 'width: 400px;''padding: 10px;'}))
+                                                          'style': 'width: 400px;''padding: 10px;'}))
     MolecularWeight = forms.FloatField(widget=forms.TextInput(attrs={'placeholder': 'Molecular Weight',
-                                                                       'style': 'width: 400px;''padding: 10px;'}))
+                                                                     'style': 'width: 400px;''padding: 10px;'}))
     IUPAC = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'IUPAC',
                                                           'style': 'width: 400px;''padding: 10px;'}), required=False)
     DrugScore = forms.FloatField(widget=forms.TextInput(attrs={'placeholder': 'Drug Score',
-                                                                 'style': 'width: 400px;''padding: 10px;'}), required=False)
+                                                               'style': 'width: 400px;''padding: 10px;'}),
+                                 required=False)
     DrugLike = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Drug Like',
                                                              'style': 'width: 400px;''padding: 10px;'}), required=False)
     SmileFormat = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Smile Format',
@@ -113,14 +211,34 @@ class Ligand_insert_form(forms.Form):
     structure = forms.FileField()
 
 
+class Ligand_insert_many_form(forms.Form):
+    data_file = forms.FileField()
+
+
+class Ligand_In_Property_Range_form(forms.Form):
+    CHOICES = [
+        ('IC50', 'IC50'),
+        ('BindingFreeEnergy', 'BindingFreeEnergy'),
+        ('Ki', 'Ki'),
+        ('GI50', 'GI50'),
+        ('EC50', 'EC50'),
+        ('Kd', 'Kd'),
+    ]
+
+    my_choice = forms.ChoiceField(choices=CHOICES, widget=forms.Select(attrs={'style': 'width: 400px; '
+                                                                                       'border-top-left-radius: 25px; '
+                                                                                       'border-bottom-left-radius: 25px; '
+                                                                                       'padding: 10px;'}))
+
+
 # ======================================================================================================================= Protein
 class Protein_search_form(forms.Form):
     Name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Protein Name',
                                                          'style': 'width: 400px; border-top-left-radius: 25px; '
                                                                   'border-bottom-left-radius: 25px; '
-                                                                  'padding: 10px;'}))
+                                                                  'padding: 10px;'}), required=False)
     Id = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Protein Id',
-                                                       'style': 'width: 200px;''padding: 10px;'}))
+                                                       'style': 'width: 200px;''padding: 10px;'}), required=False)
 
 
 class Protein_insert_form(forms.Form):
@@ -133,3 +251,14 @@ class Protein_insert_form(forms.Form):
     PDB_id = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'PDB_id',
                                                            'style': 'width: 400px;''padding: 10px;'}))
     structure = forms.FileField()
+
+
+class Protein_insert_many_form(forms.Form):
+    data_file = forms.FileField()
+
+
+class Protein_delete_form(forms.Form):
+    Name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Name',
+                                                         'style': 'width: 400px;''padding: 10px;'}), required=False)
+    Id = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Id',
+                                                       'style': 'width: 400px;''padding: 10px;'}), required=False)
